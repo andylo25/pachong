@@ -18,7 +18,7 @@ public class Tester {
 		System.out.println(Math.ceil(0.1));
 //		test2();
 //		test3();
-//		test4();
+		test4();
 		test5();
 	}
 	public static void test1(){
