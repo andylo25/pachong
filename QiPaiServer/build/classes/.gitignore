@@ -1,8 +1,2 @@
-/application.properties
-/cn/
 /com/
-/lisence
-/log4j.properties
-/rsa_s_private_key_pkcs7.txt
-/rsa_s_private_key_pkcs8.txt
-/rsa_s_public_key.txt
+/cn/
