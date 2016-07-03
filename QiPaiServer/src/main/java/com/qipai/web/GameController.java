@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.andy.ext.Action;
+import com.andy.util.MD5Util;
 import com.qipai.common.GlobalVar;
 import com.qipai.common.QipaiCache;
 import com.qipai.common.game.comp.Resp;
@@ -122,19 +123,19 @@ public class GameController extends BaseController {
 	}
 	
 	public void gm(){
-		String ticket = getPara("ticket");
+		String ticket = getPara("tk");
 		String cmd = getPara("cmd");
 		if(StringUtils.isBlank(ticket) || StringUtils.isBlank(cmd)){
 			renderResp(new Resp(QPC.ECD_999));
 			return ;
 		}
-		if(ticket.equals(QipaiCache.getConfVal("gm_pwd"))){
+		if(ticket.equals(MD5Util.getEncryption(QipaiCache.getConfVal("gm_pwd")))){
 			String[] cmds = cmd.split("\\|");
 			String res = GameAction.doCmd(GM.valueOf(cmds[0]),Arrays.copyOfRange(cmds, 1, cmds.length));
 			renderResp(new Resp().set("data", res));
-			return ;
+		}else{
+			renderResp(new Resp(QPC.ECD_101));
 		}
-		renderResp(new Resp(QPC.ECD_999));
 	}
 	
 }

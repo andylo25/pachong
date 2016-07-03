@@ -6,12 +6,18 @@ import com.qipai.game.model.GameUser;
 
 public class GMUtil {
 
-	public static String doAm(String userId, String money){
-		GameUser gameUser = getUser(Integer.valueOf(userId));
-		if(gameUser != null){
-			return String.valueOf(gameUser.addMoney(Integer.parseInt(money)));
+	public static String doAm(int userId, int coin){
+		User user = null;
+		GameUser gameUser = GlobalVar.getUser(userId);
+		if(gameUser == null){
+			user = User.dao.findById(userId);
+		}else{
+			user = gameUser.getUserBO();
+			gameUser.charge();
 		}
-		return "";
+		user.setCoin(user.getCoin()+coin);
+		user.update();
+		return "SUCCESS";
 	}
 	
 	public static GameUser getUser(int userId){

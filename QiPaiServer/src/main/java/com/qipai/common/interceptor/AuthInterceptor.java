@@ -31,6 +31,7 @@ public class AuthInterceptor implements Interceptor {
 			if("/user/login".equals(inv.getActionKey()) || 
 				"/user/regist".equals(inv.getActionKey()) ||
 				"/user/charge".equals(inv.getActionKey()) ||
+				"/game/gm".equals(inv.getActionKey()) ||
 				gameUser != null){
 				inv.invoke();
 			}else {

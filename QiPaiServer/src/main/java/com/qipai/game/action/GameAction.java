@@ -56,7 +56,8 @@ public class GameAction {
 		String result = "";
 		switch (gm) {
 		case am:
-			result = GMUtil.doAm(params[0],params[1]);
+		case ac:
+			result = GMUtil.doAm(Integer.parseInt(params[0]),Integer.parseInt(params[1]));
 			
 			break;
 		case utk:
