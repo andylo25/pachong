@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.qipai.common.game.comp.LabaCard;
 import com.qipai.common.model.User;
 import com.qipai.web.UserController;
 
@@ -16,6 +17,7 @@ public class Tester {
 	public static void main(String[] args) throws Exception {
 //		test1();
 		System.out.println(Math.ceil(0.1));
+		LabaCard[][] fds = LabaGame.toCards("1,2,1,2,3,1,5,3,6,3,2,5,6,3,5,3,5,3,6,3");
 //		test2();
 //		test3();
 		test4();

@@ -250,5 +250,16 @@ public class LabaGame {
 		rewards.put(113, 10);
 		
 	}
+	
+	public static LabaCard[][] toCards(String str){
+		String[] cardss = str.split(",");
+		LabaCard[][] cards = new LabaCard[5][4];
+		for(int i=0;i<5;i++){
+			for(int j=0;j<4;j++){
+				cards[i][j] = LabaCard.getCardById(Integer.parseInt(cardss[i*4+j]));
+			}
+		}
+		return cards;
+	}
 
 }
