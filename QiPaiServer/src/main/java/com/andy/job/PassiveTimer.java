@@ -1,11 +1,13 @@
 package com.andy.job;
 
+import java.io.Serializable;
+
 /**
  * 被动定时器
  * @author cuiwm
  *
  */
-public class PassiveTimer {
+public class PassiveTimer implements Serializable{
 	private long createTime;
 	private long currenStartTime;
 	private long period;
