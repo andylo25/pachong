@@ -1,6 +1,7 @@
 package com.qipai.web;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,6 +20,7 @@ import com.qipai.common.QipaiCache;
 import com.qipai.common.game.comp.PayVO;
 import com.qipai.common.game.comp.Resp;
 import com.qipai.common.game.comp.Resp.RespGame;
+import com.qipai.common.model.Charge;
 import com.qipai.common.model.User;
 import com.qipai.common.web.BaseController;
 import com.qipai.game.model.GameUser;
@@ -29,6 +31,7 @@ import com.qipai.util.StringUtil;
 
 import cn.zf.http.HttpClientUtil;
 import cn.zf.qrcode.QrcodeDis;
+import sun.org.mozilla.javascript.internal.ObjArray;
 
 /**
  * IndexController
@@ -235,6 +238,17 @@ public class UserController extends BaseController {
 		}
 		logger.error("充值签名验证失败");
 		renderText("INVALID");
+	}
+	
+	// coin明细
+	public void detail(){
+		User user = gameUser.getUserBO();
+		List<Charge> charges = Charge.dao.find("select * from charge c where c.ordre_state!='0' and (c.user_id=? or c.money=?) order by id desc", new Object[]{user.getId(),user.getId()});
+		if(charges != null){
+			renderResp(new Resp().set("results", charges));
+		}else{
+			renderResp(new Resp());
+		}
 	}
 	
 	private IUserService getUserSrv(){

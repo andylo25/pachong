@@ -81,8 +81,8 @@ public class UserService implements IUserService{
 		Charge charge = new Charge();
 		charge.setMoney(dest.getId());
 		charge.setCoin(coin);
-		charge.setFrom("转账:Money=>转入用户");
-		charge.setOrdreState("0");
+		charge.setFrom("转账");
+		charge.setOrdreState("1");
 		charge.setTxnTime(new Date());
 		charge.setUserId(user.getId());
 		
