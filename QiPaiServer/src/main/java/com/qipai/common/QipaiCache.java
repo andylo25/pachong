@@ -93,6 +93,12 @@ public class QipaiCache implements IPlugin,Serializable{
 	private void initConstants(Sysconf conf) {
 		if(conf.getKey().equals("fanpai_doub_times")){
 			QPC.fanpai_doub_times = Integer.valueOf(conf.getVal());
+		}else if(conf.getKey().equals("fanpai_percent")){
+			String[] perc = conf.getVal().split("\\|");
+			QPC.JOKER_PERCENT = Integer.valueOf(perc[0]);
+			QPC.FIVE_PERCENT = Integer.valueOf(perc[1]);
+			QPC.HJTH_PERCENT = Integer.valueOf(perc[2]);
+			QPC.TH_PERCENT = Integer.valueOf(perc[3]);
 		}
 	}
 

@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 
+import com.andy.util.RandomUtils;
 import com.qipai.common.game.comp.Card;
 import com.qipai.common.game.comp.Deck;
 import com.qipai.common.game.comp.Card.CardFace;
@@ -37,7 +38,7 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 	public Card[] open(Integer money) {
 		reset();
 		if(gameState == GameState.Start || gameState == GameState.Doub){
-			cards = deck.next(QPC.FANPAI_CARD_NUM);
+			cards = deck.nextNoJoker(QPC.FANPAI_CARD_NUM);
 			bet = money;
 //			addCoin(bet);//在contr里面已经扣钱了
 			gameState = GameState.Deal;
@@ -48,12 +49,14 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 	public int[] change(String[] keeps) {
 		int[] result = new int[2];
 		if(gameState == GameState.Deal){
-			for(int i=0;i<cards.length;i++){
-				if(ArrayUtils.contains(keeps, String.valueOf(i)))continue;
-				cards[i] = deck.next();
-			}
-			ThsReward reward = new ThsReward(cards);
+			ThsReward reward = buildCard(keeps);
 			int winTimes = reward.getWinTimes();
+			int acount = 0;
+			while (havAgain(winTimes) && acount < 5) {
+				reward = buildCard(keeps);
+				winTimes = reward.getWinTimes();
+				acount++;
+			}
 			if(logger.isInfoEnabled()){
 				logger.info("开牌："+Arrays.toString(cards));
 			}
@@ -73,6 +76,32 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 			result[0] = QPC.INVALID;
 		}
 		return result;
+	}
+	
+	private ThsReward buildCard(String[] keeps){
+		for(int i=0;i<cards.length;i++){
+			if(ArrayUtils.contains(keeps, String.valueOf(i)))continue;
+			cards[i] = deck.nextNoJoker();
+		}
+		
+		return new ThsReward(cards);
+	}
+	
+	private boolean havAgain(int winTimes){
+		if(winTimes == QPC.BINGO_1){
+			if(!RandomUtils.countPercent(QPC.FIVE_PERCENT)){
+				return true;
+			}
+		}else if(winTimes == QPC.BINGO_2){
+			if(!RandomUtils.countPercent(QPC.HJTH_PERCENT)){
+				return true;
+			}
+		}else if(winTimes == QPC.BINGO_3){
+			if(!RandomUtils.countPercent(QPC.TH_PERCENT)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void reset(){
