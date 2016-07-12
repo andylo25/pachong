@@ -93,9 +93,13 @@ public class UserController extends BaseController {
 		user.setPwd(getPara("pwd"));
 		user.setNickName(getPara("nickName"));
 		
-		int ecd = getUserSrv().regist(user);
+		if(user.getUserName().matches("^1[3|4|5|7|8]\\d{9}$")){
+			int ecd = getUserSrv().regist(user);
+			renderResp(new Resp(ecd));
+		}else{
+			renderResp(new Resp(QPC.ECD_997));
+		}
 		
-		renderResp(new Resp(ecd));
 	}
 	
 	// 登出
