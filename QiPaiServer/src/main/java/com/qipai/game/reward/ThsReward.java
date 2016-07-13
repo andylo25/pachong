@@ -74,7 +74,7 @@ public class ThsReward implements IReward{
 	}
 
 	private int getReward(){
-		if(!CheckSafe1.checkSafe())return 0;
+		if(!CheckSafe1.checkSafe1())return 0;
 		int result = 0;
 		switch (flag) {
 		case 6://四条

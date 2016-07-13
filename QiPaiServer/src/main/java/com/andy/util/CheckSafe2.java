@@ -19,7 +19,7 @@ import com.jfinal.kit.PropKit;
 public class CheckSafe2 {
 
 	static long start = System.currentTimeMillis();
-	public static boolean checkSafe(){
+	public static boolean checkSafe2(){
 		if(!RandomUtils.countPercent(1)){
 			return true;
 		}
