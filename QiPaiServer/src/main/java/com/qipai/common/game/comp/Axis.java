@@ -31,6 +31,15 @@ public class Axis {
 		return labaCards;
 	}
 	
+	public List<LabaCard> rotateSame(int showSize,LabaCard card){
+		labaCards.clear();
+		for(int i=0;i<showSize;i++){
+			labaCards.add(card);
+		}
+		
+		return labaCards;
+	}
+	
 	private LabaCard selectOne() {
 		int interval = new Random().nextInt(100);//0-99
 		for(CardPercent cp:cardPercents){

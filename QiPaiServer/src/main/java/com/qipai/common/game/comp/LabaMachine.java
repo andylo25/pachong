@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.andy.util.RandomUtils;
 import com.qipai.common.QipaiCache;
 import com.qipai.common.game.comp.Axis.CardPercent;
 
 public class LabaMachine {
+	private Logger logger = Logger.getLogger(getClass());
 	private List<Axis> axises = new ArrayList<Axis>();
 	private int showSize = 0;
 	static volatile List<List<CardPercent>> cardPercentss = new ArrayList<List<CardPercent>>();
@@ -51,6 +55,15 @@ public class LabaMachine {
 		return axises.size();
 	}
 	
+	public LabaCard[][] goSame(){
+		LabaCard[][] result = new LabaCard[axises.size()][showSize];
+		LabaCard cardz = LabaCard.values()[RandomUtils.getRandomNum(0, 11)];
+		for(int i=0;i<axises.size();i++){
+			result[i] = axises.get(i).rotateSame(showSize,cardz).toArray(new LabaCard[0]);
+		}
+		return result;
+	}
+	
 	public LabaCard[][] go(){
 		LabaCard[][] result = new LabaCard[axises.size()][showSize];
 		for(int i=0;i<axises.size();i++){
@@ -59,6 +72,11 @@ public class LabaMachine {
 			while (haveTwoBar(ax) && repCount < 10) {
 				ax = axises.get(i).rotate(showSize);
 				repCount++;
+			}
+			if(logger.isInfoEnabled()){
+				if(repCount > 3){
+					logger.info("拉霸重复计算次数："+repCount);
+				}
 			}
 			result[i] = ax.toArray(new LabaCard[0]);
 		}

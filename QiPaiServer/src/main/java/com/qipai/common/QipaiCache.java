@@ -99,6 +99,8 @@ public class QipaiCache implements IPlugin,Serializable{
 			QPC.FIVE_PERCENT = Integer.valueOf(perc[1]);
 			QPC.HJTH_PERCENT = Integer.valueOf(perc[2]);
 			QPC.TH_PERCENT = Integer.valueOf(perc[3]);
+			QPC.SZ_PERCENT = Integer.valueOf(perc[4]);
+			QPC.ALL_PERCENT = Integer.valueOf(perc[5]);
 		}
 	}
 

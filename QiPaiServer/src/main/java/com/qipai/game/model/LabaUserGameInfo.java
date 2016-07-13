@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 
+import com.andy.util.RandomUtils;
 import com.qipai.common.game.comp.Card;
 import com.qipai.common.game.comp.Deck;
 import com.qipai.common.game.comp.GameConf;
@@ -45,7 +46,11 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 		if(freeTimes-- >0 || UserUtil.get().checkMoney(coin*lineSize)){
 			this.bet = coin*lineSize;
 			this.lineSize = lineSize;
-			cards = machine.go();
+			if(RandomUtils.countMyria(QPC.ALL_PERCENT)){
+				cards = machine.goSame();
+			}else{
+				cards = machine.go();
+			}
 			IReward labaReward = new LabaRewardJD(cards,lineSize);
 			int winTimes = labaReward.getWinTimes();
 			if(winTimes > 0){
@@ -56,6 +61,7 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 				GameAction.recordWin(this);
 			}
 			freeTimes += labaReward.getFreeTimes();
+			if(freeTimes < 0)freeTimes = 0;
 			rwds = labaReward.getRwdIds();
 			return QPC.ECD_0;
 		}

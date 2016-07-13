@@ -58,6 +58,8 @@ public class QPC {
 	public static int FIVE_PERCENT = 100; //五张出现概率
 	public static int HJTH_PERCENT = 100; //皇家同花顺
 	public static int TH_PERCENT = 100; //同花顺
+	public static int SZ_PERCENT = 100; //顺子
+	public static int ALL_PERCENT = 0; //全屏概率
 	
 	
 	/**
