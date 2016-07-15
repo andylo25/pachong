@@ -65,6 +65,9 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 				winCoin = RewardUtil.payTax(winCoin);
 				doubCoin = winCoin;
 				winCoin(winCoin);
+				if(winCoin > QPC.PRIZE_NOTICE_MIN){
+					PopupMsg.instanceGG().addMsg(user, String.valueOf(winCoin));
+				}
 				gameState = GameState.Doub;
 				result[0] = winCoin;
 				result[1] = reward.getRwdIds().get(0);

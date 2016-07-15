@@ -44,6 +44,7 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 			lineSize = GameConf.labaLines.length;
 		}
 		if(freeTimes-- >0 || UserUtil.get().checkMoney(coin*lineSize)){
+			if(freeTimes < 0)freeTimes = 0;
 			this.bet = coin*lineSize;
 			this.lineSize = lineSize;
 			if(RandomUtils.countMyria(QPC.ALL_PERCENT)){
@@ -58,10 +59,13 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 				winCoin = RewardUtil.payTax(winTimes*coin);
 				doubCoin = winCoin;
 				winCoin(winCoin);
+				if(winCoin > QPC.PRIZE_NOTICE_MIN){
+					PopupMsg.instanceGG().addMsg(user, String.valueOf(winCoin));
+				}
 				GameAction.recordWin(this);
 			}
 			freeTimes += labaReward.getFreeTimes();
-			if(freeTimes < 0)freeTimes = 0;
+			
 			rwds = labaReward.getRwdIds();
 			return QPC.ECD_0;
 		}

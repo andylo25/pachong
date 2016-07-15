@@ -22,10 +22,14 @@ public class PopupMsg implements Serializable{
 	private List<Integer> readedUsers = new ArrayList<Integer>();//已经读取过的人
 	private List<Integer> readedUsers1 = new ArrayList<Integer>();//已经读取过的人(旧)
 	private List<PopupMsgItem> popupsCur = new ArrayList<PopupMsgItem>();
-	private static PopupMsg popupMsg = new PopupMsg();
+	private static PopupMsg popupMsg = new PopupMsg();//弹屏信息
+	private static PopupMsg popupMsgGG = new PopupMsg();//奖励公告
 	
 	public static PopupMsg instance(){
 		return popupMsg;
+	}
+	public static PopupMsg instanceGG(){
+		return popupMsgGG;
 	}
 	
 	private PopupMsg() {

@@ -101,6 +101,8 @@ public class QipaiCache implements IPlugin,Serializable{
 			QPC.TH_PERCENT = Integer.valueOf(perc[3]);
 			QPC.SZ_PERCENT = Integer.valueOf(perc[4]);
 			QPC.ALL_PERCENT = Integer.valueOf(perc[5]);
+		}else if(conf.getKey().equals("prize_notice_start")){
+			QPC.PRIZE_NOTICE_MIN = Integer.parseInt(conf.getVal());
 		}
 	}
 

@@ -94,6 +94,9 @@ public class UserController extends BaseController {
 		user.setNickName(getPara("nickName"));
 		
 		if(user.getUserName().matches("^1[3|4|5|7|8]\\d{9}$")){
+			if(StringUtils.isBlank(user.getNickName())){
+				user.setNickName(user.getUserName());
+			}
 			int ecd = getUserSrv().regist(user);
 			renderResp(new Resp(ecd));
 		}else{

@@ -99,6 +99,7 @@ public class GameController extends BaseController {
 	// 轮询
 	public void poll(){
 		renderResp(new Resp().set("content", PopupMsg.instance().getMsgs(gameUser.getId()))
+				.set("notice", PopupMsg.instanceGG().getMsgs(gameUser.getId()))
 				.set("money", gameUser.getUserBO().getCoin()));
 	}
 	

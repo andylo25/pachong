@@ -17,6 +17,14 @@ public class TaskUtil {
 			}
 		}, 30*1000,30*1000);
 		
+		// 奖励公告
+		TimerManager.schedule(new AbsTimerTask() {
+			@Override
+			public void doRun() {
+				PopupMsg.instanceGG().refreshPopup();
+			}
+		}, 40*1000,30*1000);
+		
 		TaskManager.getInstance().addToRun(QPC.TASK_RANK, new RankTask("0 0 * * *"));//每天一次排行榜刷新
 		TaskManager.getInstance().addToRun(QPC.TASK_DAY, new OneDayTask("0 0 * * *"));//每天计划
 	}
