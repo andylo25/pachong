@@ -107,6 +107,14 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 			if(!RandomUtils.countPercent(QPC.SZ_PERCENT)){
 				return true;
 			}
+		}else if(winTimes == QPC.BINGO_4){
+			if(!RandomUtils.countPercent(QPC.SZH_PERCENT)){
+				return true;
+			}
+		}else if(winTimes == QPC.BINGO_9){
+			if(!RandomUtils.countPercent(QPC.LD_PERCENT)){
+				return true;
+			}
 		}
 		return false;
 	}
