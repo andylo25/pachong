@@ -101,7 +101,7 @@ public class GameAction {
 				ranks.add(new Rank().set("coin", users.get(i).getCoin())
 						.set("rank", i+1)
 						.set("user_id", users.get(i).getId())
-						.set("user_name", users.get(i).getUserName())
+						.set("user_name", users.get(i).getNickName())
 						.set("game_id", QPC.GAME_100));
 			}
 			Db.batchSave(ranks, 100);
