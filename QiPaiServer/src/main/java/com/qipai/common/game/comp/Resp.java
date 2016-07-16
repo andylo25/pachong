@@ -59,10 +59,10 @@ public class Resp {
 		}
 		
 		public String getUserName() {
-			return user.getNickName();
+			return user.getUserName();
 		}
 		public void setUserName(String userName) {
-			user.setNickName(userName);
+			user.setUserName(userName);
 		}
 		public Integer getCoin() {
 			return user.getCoin();
