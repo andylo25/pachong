@@ -7,8 +7,8 @@ import java.net.URLEncoder;
 public class Tester1 {
 
 	public static void main(String[] args) throws Exception {
-		test1();
-//		test2();
+//		test1();
+		test2();
 	}
 	
 	public static void test1() throws UnsupportedEncodingException{
@@ -18,6 +18,7 @@ public class Tester1 {
 	}
 
 	public static void test2(){
-		System.out.println(Integer.parseInt("3 "));
+//		System.out.println(Integer.parseInt("3 "));
+		System.out.println("13880245042".matches("^1[3|4|5|7|8]\\d{9}$"));
 	}
 }

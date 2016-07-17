@@ -101,7 +101,7 @@ public class GameInfo implements Serializable{
 	 * @return
 	 */
 	public String getRankRange(GameUser user,int num){
-		gameTimer.check();
+//		gameTimer.check();
 		rankTimer.check();
 		int index = players.indexOf(user);
 		int start = index-(num-1)/2;

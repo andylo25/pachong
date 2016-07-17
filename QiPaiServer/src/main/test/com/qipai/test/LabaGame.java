@@ -109,6 +109,7 @@ public class LabaGame {
 		cards[4][2] = LabaCard.Three;
 		cards[4][3] = LabaCard.One;
 		int lineSize = 50;
+		cards = toCards("4,5,3,8,2,4,9,4,3,4,3,1,10,9,6,4,2,6,13,2");
 		IReward reward = new LabaRewardJD(cards , lineSize);
 		reward.getRwdIds();
 	}
