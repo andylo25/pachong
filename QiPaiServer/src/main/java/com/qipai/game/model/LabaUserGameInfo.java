@@ -44,7 +44,6 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 			lineSize = GameConf.labaLines.length;
 		}
 		if(freeTimes-- >0 || UserUtil.get().checkMoney(coin*lineSize)){
-			if(freeTimes < 0)freeTimes = 0;
 			this.bet = coin*lineSize;
 			this.lineSize = lineSize;
 			if(RandomUtils.countMyria(QPC.ALL_PERCENT)){
@@ -54,6 +53,8 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 			}
 			IReward labaReward = new LabaRewardJD(cards,lineSize);
 			int winTimes = labaReward.getWinTimes();
+			if(freeTimes >= 0)winTimes *= 2;
+			if(freeTimes < 0)freeTimes = 0;
 			if(winTimes > 0){
 				gameState = GameState.Doub;
 				winCoin = RewardUtil.payTax(winTimes*coin);
