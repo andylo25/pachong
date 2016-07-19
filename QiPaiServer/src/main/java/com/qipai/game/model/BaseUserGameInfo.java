@@ -112,7 +112,7 @@ public class BaseUserGameInfo implements Serializable{
 		deck = new Deck();
 		doubCoin = 0;
 		doubTimes = QPC.fanpai_doub_times;
-		totalWinCoin = 0;
+//		totalWinCoin = 0;
 		winCoin = 0;
 	}
 	
