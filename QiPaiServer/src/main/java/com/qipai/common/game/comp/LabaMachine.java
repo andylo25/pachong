@@ -15,6 +15,7 @@ public class LabaMachine {
 	private List<Axis> axises = new ArrayList<Axis>();
 	private int showSize = 0;
 	static volatile List<List<CardPercent>> cardPercentss = new ArrayList<List<CardPercent>>();
+	static volatile List<List<CardPercent>> cardPercentss_f = new ArrayList<List<CardPercent>>();
 	
 	private void init(){
 		synchronized (cardPercentss) {
@@ -34,18 +35,47 @@ public class LabaMachine {
 				}
 			}
 		}
+		synchronized (cardPercentss_f) {
+			if(cardPercentss_f.isEmpty()){
+				for(int i=1;i<6;i++){
+					int first = 0;
+					String[] perItems = QipaiCache.getConfVal("laba_card_percent_f"+i).trim().split("\\|");
+					List<CardPercent> cardPercents = new ArrayList<Axis.CardPercent>();
+					for(String pi:perItems){
+						String[] cp = pi.split("=");
+						int cardId = Integer.parseInt(cp[0].trim());
+						int percent = first+Integer.parseInt(cp[1].trim());
+						cardPercents.add(new CardPercent(first,percent,LabaCard.getCardById(cardId)));
+						first = percent;
+					}
+					cardPercentss_f.add(cardPercents);
+				}
+			}
+		}
 	}
 	
 	public LabaMachine() {
-		this(4);
+		this(4,false);
 		
 	}
-	public LabaMachine(int showSize) {
+	
+	/**
+	 * @param isFreeMod 是否免费模式
+	 */
+	public LabaMachine(boolean isFreeMod) {
+		this(4,isFreeMod);
+		
+	}
+	public LabaMachine(int showSize,boolean isFreeMod) {
 		this.showSize = showSize;
 		init();
 		for(int i=0;i<5;i++){
 			Axis axis = new Axis();
-			axis.setCardPercents(cardPercentss.get(i));
+			if(isFreeMod){
+				axis.setCardPercents(cardPercentss_f.get(i));
+			}else{
+				axis.setCardPercents(cardPercentss.get(i));
+			}
 			axises.add(axis );
 		}
 		

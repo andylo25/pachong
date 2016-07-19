@@ -29,6 +29,7 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 	
 	private LabaCard[][] cards;
 	private LabaMachine machine;
+	private LabaMachine machine_f;
 	private List<Integer> rwds = new ArrayList<Integer>();
 	private int lineSize;//下注线数
 	private int freeTimes;//免费次数
@@ -36,6 +37,7 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 	public LabaUserGameInfo(User user) {
 		super(user);
 		machine = new LabaMachine();
+		machine_f = new LabaMachine(true);
 	}
 	
 	public int pull(int coin,int lineSize) {
@@ -46,10 +48,12 @@ public class LabaUserGameInfo extends BaseUserGameInfo{
 		if(freeTimes-- >0 || UserUtil.get().checkMoney(coin*lineSize)){
 			this.bet = coin*lineSize;
 			this.lineSize = lineSize;
+			LabaMachine machineT = machine;
+			if(freeTimes >= 0)machineT  = machine_f;
 			if(RandomUtils.countMyria(QPC.ALL_PERCENT)){
-				cards = machine.goSame();
+				cards = machineT.goSame();
 			}else{
-				cards = machine.go();
+				cards = machineT.go();
 			}
 			IReward labaReward = new LabaRewardJD(cards,lineSize);
 			int winTimes = labaReward.getWinTimes();
