@@ -18,6 +18,7 @@ public class BaseUserGameInfo implements Serializable{
 	protected int doubTimes = QPC.fanpai_doub_times;
 	protected int doubCoin;
 	protected int totalWinCoin;
+	protected int totalWinCoinTemp;
 	protected int bet;//下注
 	protected int winCoin;
 	protected Deck deck;
@@ -40,6 +41,12 @@ public class BaseUserGameInfo implements Serializable{
 	
 	public int getTotalWinCoin(){
 		return totalWinCoin;
+	}
+	public void refreshTotalWin(){
+		this.totalWinCoinTemp = totalWinCoin;
+	}
+	public int getTotalWinRank(){
+		return this.totalWinCoinTemp;
 	}
 	
 	public int getBet(){

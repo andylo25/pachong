@@ -35,13 +35,13 @@ public class GameInfo implements Serializable{
 			public void doRun() {
 				refreshRank();
 			}
-		}, 60*1000);
+		}, 30*1000);
 		gameTimer = new PassiveTimer(new AbsTimerTask() {
 			@Override
 			public void doRun() {
 				resetGame();
 			}
-		}, 15*60*1000);
+		}, 10*60*1000);
 	}
 	
 	private void resetGame() {
@@ -85,11 +85,14 @@ public class GameInfo implements Serializable{
 	
 	public void refreshRank(){
 		synchronized (players) {
+			for(GameUser u:players){
+				u.getUserGameInfo().refreshTotalWin();
+			}
 			Collections.sort(players,new Comparator<GameUser>() {
 				@Override
 				public int compare(GameUser user1, GameUser user2) {
 					if(user1 == null || user2 == null)return 0;
-					return user2.getUserGameInfo().getTotalWinCoin() - user1.getUserGameInfo().getTotalWinCoin();
+					return user2.getUserGameInfo().getTotalWinRank() - user1.getUserGameInfo().getTotalWinRank();
 				}
 			});
 		}
@@ -115,7 +118,8 @@ public class GameInfo implements Serializable{
 		List<String> result = new ArrayList<String>();
 		int rank = start+1;
 		for(GameUser u:players.subList(start, end)){
-			result.add(rank+","+u.getUserBO().getNickName()+","+u.getUserGameInfo().getTotalWinCoin());
+			result.add(rank+","+u.getUserBO().getNickName()+","+u.getUserGameInfo().getTotalWinRank());
+			rank++;
 		};
 		return StringUtils.join(result, "|"); 
 	}
