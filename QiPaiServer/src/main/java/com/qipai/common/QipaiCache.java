@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.log4j.Logger;
 
 import com.jfinal.plugin.IPlugin;
+import com.qipai.common.game.comp.LabaMachine;
 import com.qipai.common.model.Game;
 import com.qipai.common.model.Notice;
 import com.qipai.common.model.Reward;
@@ -49,6 +50,8 @@ public class QipaiCache implements IPlugin,Serializable{
 				sysConfCache.put(conf.getKey(), conf.getVal());
 				initConstants(conf);
 			}
+			
+			LabaMachine.refreshPerc();
 		}
 		
 		// 加载收税配置,需要优先游戏信息*
@@ -94,18 +97,21 @@ public class QipaiCache implements IPlugin,Serializable{
 		if(conf.getKey().equals("fanpai_doub_times")){
 			QPC.fanpai_doub_times = Integer.valueOf(conf.getVal());
 		}else if(conf.getKey().equals("fanpai_percent")){
-			String[] perc = conf.getVal().split("\\|");
-			QPC.JOKER_PERCENT = Integer.valueOf(perc[0]);
-			QPC.FIVE_PERCENT = Integer.valueOf(perc[1]);
-			QPC.HJTH_PERCENT = Integer.valueOf(perc[2]);
-			QPC.TH_PERCENT = Integer.valueOf(perc[3]);
-			QPC.SZ_PERCENT = Integer.valueOf(perc[4]);
-			QPC.ALL_PERCENT = Integer.valueOf(perc[5]);
-			QPC.SZH_PERCENT = Integer.valueOf(perc[6]);
-			QPC.LD_PERCENT = Integer.valueOf(perc[7]);
+			initFanpai(conf);
 		}else if(conf.getKey().equals("prize_notice_start")){
 			QPC.PRIZE_NOTICE_MIN = Integer.parseInt(conf.getVal());
 		}
+	}
+	private static void initFanpai(Sysconf conf) {
+		String[] perc = conf.getVal().split("\\|");
+		QPC.JOKER_PERCENT = Integer.valueOf(perc[0]);
+		QPC.FIVE_PERCENT = Integer.valueOf(perc[1]);
+		QPC.HJTH_PERCENT = Integer.valueOf(perc[2]);
+		QPC.TH_PERCENT = Integer.valueOf(perc[3]);
+		QPC.SZ_PERCENT = Integer.valueOf(perc[4]);
+		QPC.ALL_PERCENT = Integer.valueOf(perc[5]);
+		QPC.SZH_PERCENT = Integer.valueOf(perc[6]);
+		QPC.LD_PERCENT = Integer.valueOf(perc[7]);
 	}
 
 	private boolean run;
@@ -173,5 +179,34 @@ public class QipaiCache implements IPlugin,Serializable{
 	}
 	public static void upNotic(String content){
 		qipaiCache.NOTIC_CONTENT = content;
+	}
+	public static void refreshCache(int type) {
+		switch (type) {
+		case 1:
+			refreshFanpai();
+			break;
+		case 2:
+			refreshLaba();
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	private static void refreshLaba() {
+		List<Sysconf> confs = Sysconf.dao.find("select * from sysconf t where t.key like 'laba_card_percent%'");
+		for(Sysconf conf:confs){
+			qipaiCache.sysConfCache.put(conf.getKey(), conf.getVal());
+		}
+		LabaMachine.refreshPerc();
+	}
+	
+	private static void refreshFanpai() {
+		Sysconf conf = Sysconf.dao.findFirst("select * from sysconf t where t.key='fanpai_percent'");
+		if(conf != null){
+			qipaiCache.sysConfCache.put(conf.getKey(), conf.getVal());
+			initFanpai(conf);
+		}
 	}
 }

@@ -66,8 +66,10 @@ public class UserController extends BaseController {
 				renderResp(new Resp(QPC.ECD_101));
 			}else{
 				setAttr("error_msg", "用户名或密码错误！不是管理员？");
-				user.setOnline("0");
-				user.update();
+				if(user != null){
+					user.setOnline("0");
+					user.update();
+				}
 				renderJsp(QPC.LOGIN_JSP);
 			}
 		}

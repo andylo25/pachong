@@ -17,41 +17,38 @@ public class LabaMachine {
 	static volatile List<List<CardPercent>> cardPercentss = new ArrayList<List<CardPercent>>();
 	static volatile List<List<CardPercent>> cardPercentss_f = new ArrayList<List<CardPercent>>();
 	
-	private void init(){
-		synchronized (cardPercentss) {
-			if(cardPercentss.isEmpty()){
-				for(int i=1;i<6;i++){
-					int first = 0;
-					String[] perItems = QipaiCache.getConfVal("laba_card_percent"+i).trim().split("\\|");
-					List<CardPercent> cardPercents = new ArrayList<Axis.CardPercent>();
-					for(String pi:perItems){
-						String[] cp = pi.split("=");
-						int cardId = Integer.parseInt(cp[0].trim());
-						int percent = first+Integer.parseInt(cp[1].trim());
-						cardPercents.add(new CardPercent(first,percent,LabaCard.getCardById(cardId)));
-						first = percent;
-					}
-					cardPercentss.add(cardPercents);
-				}
+	public static void refreshPerc(){
+		List<List<CardPercent>> cardPercentssTemp = new ArrayList<List<CardPercent>>();
+		for(int i=1;i<6;i++){
+			int first = 0;
+			String[] perItems = QipaiCache.getConfVal("laba_card_percent"+i).trim().split("\\|");
+			List<CardPercent> cardPercents = new ArrayList<Axis.CardPercent>();
+			for(String pi:perItems){
+				String[] cp = pi.split("=");
+				int cardId = Integer.parseInt(cp[0].trim());
+				int percent = first+Integer.parseInt(cp[1].trim());
+				cardPercents.add(new CardPercent(first,percent,LabaCard.getCardById(cardId)));
+				first = percent;
 			}
+			cardPercentssTemp.add(cardPercents);
 		}
-		synchronized (cardPercentss_f) {
-			if(cardPercentss_f.isEmpty()){
-				for(int i=1;i<6;i++){
-					int first = 0;
-					String[] perItems = QipaiCache.getConfVal("laba_card_percent_f"+i).trim().split("\\|");
-					List<CardPercent> cardPercents = new ArrayList<Axis.CardPercent>();
-					for(String pi:perItems){
-						String[] cp = pi.split("=");
-						int cardId = Integer.parseInt(cp[0].trim());
-						int percent = first+Integer.parseInt(cp[1].trim());
-						cardPercents.add(new CardPercent(first,percent,LabaCard.getCardById(cardId)));
-						first = percent;
-					}
-					cardPercentss_f.add(cardPercents);
-				}
+		cardPercentss = cardPercentssTemp;
+
+		List<List<CardPercent>> cardPercentss_fTemp = new ArrayList<List<CardPercent>>();
+		for(int i=1;i<6;i++){
+			int first = 0;
+			String[] perItems = QipaiCache.getConfVal("laba_card_percent_f"+i).trim().split("\\|");
+			List<CardPercent> cardPercents = new ArrayList<Axis.CardPercent>();
+			for(String pi:perItems){
+				String[] cp = pi.split("=");
+				int cardId = Integer.parseInt(cp[0].trim());
+				int percent = first+Integer.parseInt(cp[1].trim());
+				cardPercents.add(new CardPercent(first,percent,LabaCard.getCardById(cardId)));
+				first = percent;
 			}
+			cardPercentss_fTemp.add(cardPercents);
 		}
+		cardPercentss_f = cardPercentss_fTemp;
 	}
 	
 	public LabaMachine() {
@@ -68,7 +65,6 @@ public class LabaMachine {
 	}
 	public LabaMachine(int showSize,boolean isFreeMod) {
 		this.showSize = showSize;
-		init();
 		for(int i=0;i<5;i++){
 			Axis axis = new Axis();
 			if(isFreeMod){

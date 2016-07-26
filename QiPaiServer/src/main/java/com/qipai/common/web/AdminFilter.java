@@ -44,7 +44,7 @@ public class AdminFilter implements Filter{
 	private boolean doAuthCheck(HttpServletRequest request, HttpServletResponse response, String target) {
 		if(!target.endsWith(".jsp"))return true;
 		GameUser gameUser = (GameUser) request.getSession().getAttribute(QPC.USER_SESSION_KEY);
-		if(gameUser == null && !target.equals(QPC.LOGIN_JSP) && !target.startsWith("/resources") 
+		if((gameUser == null || !QPC.vip_admin.equals(gameUser.getUserBO().getIsVip())) && !target.equals(QPC.LOGIN_JSP) && !target.startsWith("/resources") 
 				&& !target.startsWith("/public")){
 			return false;
 		}

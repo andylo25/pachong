@@ -132,6 +132,13 @@ public class AdminController extends BaseController {
 			renderResp(new Resp(QPC.ECD_997));
 		}
 	}
+	
+	// 刷新缓存，1-翻牌配置，2-拉霸配置
+	public void refreshCache(){
+		int type = getParaToInt("type");
+		QipaiCache.refreshCache(type);
+		renderResp();
+	}
 }
 
 

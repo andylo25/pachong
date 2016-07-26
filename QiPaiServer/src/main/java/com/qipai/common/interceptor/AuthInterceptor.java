@@ -28,14 +28,14 @@ public class AuthInterceptor implements Interceptor {
 			}
 		}
 		try {
-			if("/user/login".equals(inv.getActionKey()) || 
+			if(("/user/login".equals(inv.getActionKey()) || 
 				"/user/regist".equals(inv.getActionKey()) ||
 				"/user/charge".equals(inv.getActionKey()) ||
 				"/game/gm".equals(inv.getActionKey()) ||
-				gameUser != null){
+				gameUser != null) && (!inv.getActionKey().startsWith("/admin") || QPC.vip_admin.equals(gameUser.getUserBO().getIsVip()))){
 				inv.invoke();
 			}else {
-				if("/admin".equals(inv.getActionKey())){
+				if(inv.getActionKey().startsWith("/admin")){
 					inv.getController().redirect(QPC.LOGIN_JSP);
 				}else{
 					inv.getController().renderJson(new Resp(QPC.ECD_998).resp());
