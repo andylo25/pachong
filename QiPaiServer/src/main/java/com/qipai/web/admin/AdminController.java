@@ -19,6 +19,7 @@ import com.qipai.common.game.comp.SimpleMap;
 import com.qipai.common.model.Charge;
 import com.qipai.common.model.Notice;
 import com.qipai.common.model.Score;
+import com.qipai.common.model.Sysconf;
 import com.qipai.common.model.Tax;
 import com.qipai.common.model.User;
 import com.qipai.common.vo.PageVO;
@@ -127,6 +128,26 @@ public class AdminController extends BaseController {
 			notice.setNotice(noticeC);
 			QipaiCache.upNotic(noticeC);
 			notice.update();
+			renderResp();
+		}else{
+			renderResp(new Resp(QPC.ECD_997));
+		}
+	}
+	
+	// 系统配置查询
+	public void sysconfList(){
+		Page<Sysconf> page = findPage(Sysconf.dao, "select *", "from Sysconf");
+		renderJson(page);
+	}
+	
+	// 系统配置查询
+	public void updateSysconf(){
+		int id = getParaToInt("id");
+		String val = getPara("val");
+		Sysconf sysconf = Sysconf.dao.findById(id);
+		if(sysconf != null){
+			sysconf.setVal(val);
+			sysconf.update();
 			renderResp();
 		}else{
 			renderResp(new Resp(QPC.ECD_997));

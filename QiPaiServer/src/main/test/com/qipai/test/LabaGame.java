@@ -60,7 +60,7 @@ public class LabaGame {
 	}
 
 	private static void test2() {
-		machine = new LabaMachine(4);
+		machine = new LabaMachine();
 		LabaCard[][] cards = machine.go();
 		for(LabaCard[] cds:cards){
 			System.out.println(Arrays.toString(cds));
