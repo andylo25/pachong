@@ -100,6 +100,8 @@ public class QipaiCache implements IPlugin,Serializable{
 			initFanpai(conf);
 		}else if(conf.getKey().equals("prize_notice_start")){
 			QPC.PRIZE_NOTICE_MIN = Integer.parseInt(conf.getVal());
+		}else if(conf.getKey().equals("regist_reward_coin")){
+			QPC.REGIST_REWARD_COIN = Integer.parseInt(conf.getVal());
 		}
 	}
 	private static void initFanpai(Sysconf conf) {
@@ -208,5 +210,11 @@ public class QipaiCache implements IPlugin,Serializable{
 			qipaiCache.sysConfCache.put(conf.getKey(), conf.getVal());
 			initFanpai(conf);
 		}
+		conf = Sysconf.dao.findFirst("select * from sysconf t where t.key='regist_reward_coin'");
+		if(conf != null){
+			qipaiCache.sysConfCache.put(conf.getKey(), conf.getVal());
+			QPC.REGIST_REWARD_COIN = Integer.parseInt(conf.getVal());
+		}
+		
 	}
 }

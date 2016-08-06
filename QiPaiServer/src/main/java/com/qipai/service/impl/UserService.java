@@ -42,7 +42,7 @@ public class UserService implements IUserService{
 		if(record != null && record.getLong("1") == 1){
 			return QPC.ECD_100;
 		}else{
-			user.setCoin(0);
+			user.setCoin(QPC.REGIST_REWARD_COIN);
 			user.setBankCoin(0);
 			user.setIsVip("0");
 			user.setStatus(0);

@@ -64,6 +64,7 @@ public class QPC {
 	public static int ALL_PERCENT = 0; //全屏概率
 	
 	
+	public static int REGIST_REWARD_COIN = 2000; //注册奖励金币
 	
 	public static int PRIZE_NOTICE_MIN = 1000000; //发布奖励公告起点金币
 	
