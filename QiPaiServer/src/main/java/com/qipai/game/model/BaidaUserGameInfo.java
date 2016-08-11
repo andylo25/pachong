@@ -26,6 +26,7 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 	private static final long serialVersionUID = 1L;
 	
 	private Card[] cards;
+	private int rwd;
 
 	public BaidaUserGameInfo(User user) {
 		super(user);
@@ -33,6 +34,9 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 	
 	public Card[] getCards() {
 		return cards;
+	}
+	public int getRwd(){
+		return rwd;
 	}
 
 	public Card[] open(Integer money) {
@@ -46,8 +50,7 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 		return cards;
 	}
 
-	public int[] change(String[] keeps) {
-		int[] result = new int[2];
+	public int change(String[] keeps) {
 		if(gameState == GameState.Deal){
 			ThsReward reward = buildCard(keeps);
 			int winTimes = reward.getWinTimes();
@@ -69,16 +72,15 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 					PopupMsg.instanceGG().addMsg(user, String.valueOf(winCoin));
 				}
 				gameState = GameState.Doub;
-				result[0] = winCoin;
-				result[1] = reward.getRwdIds().get(0);
+				rwd = reward.getRwdIds().get(0);
 			}else{
 				gameState = GameState.Start;
 			}
 			GameAction.recordWin(this);
 		}else{
-			result[0] = QPC.INVALID;
+			return QPC.INVALID;
 		}
-		return result;
+		return QPC.ECD_0;
 	}
 	
 	private ThsReward buildCard(String[] keeps){
@@ -122,6 +124,7 @@ public class BaidaUserGameInfo extends BaseUserGameInfo{
 	public void reset(){
 		super.reset();
 		cards = null;
+		rwd = 0;
 	}
 	
 }

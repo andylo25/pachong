@@ -46,6 +46,7 @@ public class AuthInterceptor implements Interceptor {
 			inv.getController().renderJson(new Resp(QPC.ECD_999).resp());
 		}finally{
 			UserUtil.remove();
+			controller.getSession().setAttribute(QPC.USER_SESSION_REQID_KEY,controller.getPara(QPC.USER_SESSION_REQID_KEY));
 			if(controller instanceof BaseController){
 				((BaseController)controller).removeUser();
 			}

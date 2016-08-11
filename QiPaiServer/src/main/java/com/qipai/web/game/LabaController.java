@@ -27,7 +27,10 @@ public class LabaController extends AbsGameController {
 			return;
 		}
 		LabaUserGameInfo userGameInfo = gameUser.getLabaUserGameInfo();
-		int ecd = userGameInfo.pull(coin,lines);
+		int ecd = 0;
+		if(!isReapet()){
+			ecd = userGameInfo.pull(coin,lines);
+		}
 		if(ecd == 0){
 			if(logger.isInfoEnabled()){
 				logger.info("card:"+StringUtil.joinIds(userGameInfo.getCards(), ","));

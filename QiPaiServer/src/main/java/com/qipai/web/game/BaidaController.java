@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import com.andy.ext.Action;
 import com.qipai.common.game.comp.Card;
 import com.qipai.common.game.comp.Resp;
+import com.qipai.game.model.BaidaUserGameInfo;
 import com.qipai.util.ProfileUtil;
 import com.qipai.util.QPC;
 import com.qipai.util.StringUtil;
@@ -25,8 +26,11 @@ public class BaidaController extends AbsGameController {
 			renderResp(new Resp(QPC.ECD_997));
 			return;
 		}
-		if(gameUser.checkMoney(money)){
-			Card[] cards = gameUser.getBaidaUserGameInfo().open(money);
+		BaidaUserGameInfo gameInfo = gameUser.getBaidaUserGameInfo();
+		if(isReapet()){
+			renderResp(new Resp().set("card", StringUtil.joinIds(gameInfo.getCards(), ",")));
+		}else if(gameUser.checkMoney(money)){
+			Card[] cards = gameInfo.open(money);
 			renderResp(new Resp().set("card", StringUtil.joinIds(cards, ",")));
 		}else{
 			renderResp(new Resp(QPC.ECD_120));
@@ -42,13 +46,20 @@ public class BaidaController extends AbsGameController {
 		String keepCards = getPara("keepCard");
 		if(keepCards == null)keepCards = "";
 		long start = System.currentTimeMillis();
-		int[] winRes = gameUser.getBaidaUserGameInfo().change(keepCards.split(","));
-		if(winRes[0] < 0){
-			renderResp(new Resp(QPC.ECD_997));
+		BaidaUserGameInfo gameInfo = gameUser.getBaidaUserGameInfo();
+		if(isReapet()){
+			renderResp(new Resp().set("card", StringUtil.joinIds(gameInfo.getCards(), ","))
+					.set("coin", gameInfo.getWinCoin())
+					.set("rwd", gameInfo.getRwd()));
 		}else{
-			renderResp(new Resp().set("card", StringUtil.joinIds(gameUser.getBaidaUserGameInfo().getCards(), ","))
-					.set("coin", winRes[0])
-					.set("rwd", winRes[1]));
+			int ecd = gameInfo.change(keepCards.split(","));
+			if(ecd < 0){
+				renderResp(new Resp(QPC.ECD_997));
+			}else{
+				renderResp(new Resp().set("card", StringUtil.joinIds(gameInfo.getCards(), ","))
+						.set("coin", gameInfo.getWinCoin())
+						.set("rwd", gameInfo.getRwd()));
+			}
 		}
 		
 		long hs = System.currentTimeMillis()-start;

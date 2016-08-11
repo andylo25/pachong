@@ -18,6 +18,7 @@ import com.qipai.common.vo.FilterVO;
 import com.qipai.common.vo.PageVO;
 import com.qipai.common.vo.SortVO;
 import com.qipai.game.model.GameUser;
+import com.qipai.util.QPC;
 
 public class BaseController extends Controller {
 
@@ -54,6 +55,19 @@ public class BaseController extends Controller {
 	}
 	public void completeRender(){
 		isRendered = true;
+	}
+	
+	/**
+	 * 是否重发
+	 * @return
+	 */
+	public boolean isReapet(){
+		String rid = getPara(QPC.USER_SESSION_REQID_KEY);
+		String rido = (String) getSession().getAttribute(QPC.USER_SESSION_REQID_KEY);
+		if(rid != null && rid.equals(rido)){
+			return true;
+		}
+		return false;
 	}
 
 	public PageVO getPage(){
