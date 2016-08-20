@@ -38,7 +38,7 @@ public class UserService implements IUserService{
 
 	@Override
 	public int regist(User user) {
-		Record record = Db.findFirst("select 1 from user where user_Name=?", user.getUserName());
+		Record record = Db.findFirst("select 1 from user where user_Name=? or nick_name=?", user.getUserName(),user.getNickName());
 		if(record != null && record.getLong("1") == 1){
 			return QPC.ECD_100;
 		}else{

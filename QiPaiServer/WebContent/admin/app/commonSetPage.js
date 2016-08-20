@@ -47,7 +47,7 @@ var commonSetPage = function() {
 								    	return false;
 								    }
 								);
-							});
+							},this,false,rec.get('val'));
 						}
 					}]
 				}]

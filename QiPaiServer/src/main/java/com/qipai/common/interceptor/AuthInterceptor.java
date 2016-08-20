@@ -19,6 +19,7 @@ public class AuthInterceptor implements Interceptor {
 	
 	@Override
 	public void intercept(Invocation inv) {
+		long start = System.currentTimeMillis();
 		Controller controller = inv.getController();
 		GameUser gameUser = (GameUser) controller.getSession().getAttribute(QPC.USER_SESSION_KEY);
 		if(gameUser != null){
@@ -27,15 +28,16 @@ public class AuthInterceptor implements Interceptor {
 				((BaseController)controller).setUser(gameUser);
 			}
 		}
+		String akey = inv.getActionKey();
 		try {
-			if(("/user/login".equals(inv.getActionKey()) || 
-				"/user/regist".equals(inv.getActionKey()) ||
-				"/user/charge".equals(inv.getActionKey()) ||
-				"/game/gm".equals(inv.getActionKey()) ||
-				gameUser != null) && (!inv.getActionKey().startsWith("/admin") || QPC.vip_admin.equals(gameUser.getUserBO().getIsVip()))){
+			if(("/user/login".equals(akey) || 
+				"/user/regist".equals(akey) ||
+				"/user/charge".equals(akey) ||
+				"/game/gm".equals(akey) ||
+				gameUser != null) && (!akey.startsWith("/admin") || QPC.vip_admin.equals(gameUser.getUserBO().getIsVip()))){
 				inv.invoke();
 			}else {
-				if(inv.getActionKey().startsWith("/admin")){
+				if(akey.startsWith("/admin")){
 					inv.getController().redirect(QPC.LOGIN_JSP);
 				}else{
 					inv.getController().renderJson(new Resp(QPC.ECD_998).resp());
@@ -49,6 +51,9 @@ public class AuthInterceptor implements Interceptor {
 			controller.getSession().setAttribute(QPC.USER_SESSION_REQID_KEY,controller.getPara(QPC.USER_SESSION_REQID_KEY));
 			if(controller instanceof BaseController){
 				((BaseController)controller).removeUser();
+			}
+			if(logger.isInfoEnabled()){
+				logger.info("性能监控：action["+akey+"],wtime:"+(System.currentTimeMillis()-start));
 			}
 		}
 	}
