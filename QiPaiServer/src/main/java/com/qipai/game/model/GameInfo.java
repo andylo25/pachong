@@ -111,7 +111,7 @@ public class GameInfo implements Serializable{
 		if(start < 0){
 			start = 0;
 		}
-		int end = num - start;
+		int end = start+num;
 		if(players.size() < end){
 			end = players.size();
 		}
