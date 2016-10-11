@@ -2,14 +2,15 @@ package com.andy.pc;
 
 import java.util.List;
 
+import com.andy.core.PCDaoUtil;
 import com.andy.core.PageInfo;
-import com.andy.core.db.DBUtil;
 import com.andy.pc.vo.DataVO;
 
 public class PachongMain {
 
 	public static void main(String[] args) {
-		getHdwan();
+//		getHdwan();
+		getDouban();
 	}
 	
 	/**
@@ -18,12 +19,29 @@ public class PachongMain {
 	public static void getHdwan(){
 		HdwanPc hd = new HdwanPc();
 		
-		PageInfo page = hd.buildPage(65);//72
+		PageInfo page = hd.buildPage(1);//72
 		List<DataVO> dataVOs = hd.getPage(page );
 		
 		while (!dataVOs.isEmpty()) {
 			System.out.println("page:"+page.getCurPageNo());
-			DBUtil.save(dataVOs);
+			PCDaoUtil.saveHdwan(dataVOs);
+			dataVOs = hd.getPage(page.next());
+		}
+		
+	}
+	
+	/**
+	 * 爬取豆瓣资源
+	 */
+	public static void getDouban(){
+		DoubanPc hd = new DoubanPc("动作");
+		
+		PageInfo page = hd.buildPage(8);
+		List<DataVO> dataVOs = hd.getPage(page );
+		
+		while (!dataVOs.isEmpty()) {
+			System.out.println("page:"+page.getCurPageNo());
+			PCDaoUtil.saveDouban(dataVOs);
 			dataVOs = hd.getPage(page.next());
 		}
 		

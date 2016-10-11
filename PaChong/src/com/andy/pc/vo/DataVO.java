@@ -8,14 +8,21 @@ public class DataVO implements Serializable{
 	
 	private int id;
 	
-	private String name;
+	private String name;//资源名称
 	
-	private byte[] torrent;
+	private byte[] torrent;//torrent文件
 	
-	private String desc;
+	private String desc;//描述信息
 	
-	private String metadata;
+	private String metadata;//元数据
 	
+	private Double rate;//评分
+	
+	private Integer subject;//主题id
+	
+	private String url;//明细地址
+	
+	private String durl;//备用下载地址
 
 	public int getId() {
 		return id;
@@ -56,6 +63,41 @@ public class DataVO implements Serializable{
 	public void setMetadata(String metadata) {
 		this.metadata = metadata;
 	}
+
+	public Double getRate() {
+		return rate;
+	}
+
+	public void setRate(Double rate) {
+		this.rate = rate;
+	}
+
+	public Integer getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Integer subject) {
+		this.subject = subject;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getDurl() {
+		return durl;
+	}
+
+	public void setDurl(String durl) {
+		this.durl = durl;
+	}
+
+
+
 	
 	
 	

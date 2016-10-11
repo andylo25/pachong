@@ -26,7 +26,7 @@ public class HdwanPc implements IPachong{
 		try {
 			doc = getConnect(getPageUrl(page.getCurPageNo())).get();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		Elements els = doc.select("#post_container > li");
 		if(els != null){
@@ -71,7 +71,7 @@ public class HdwanPc implements IPachong{
 		try {
 			doc = getConnect(url).get();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		Elements els = doc.select("#post_content");
 		if(els != null && !els.isEmpty()){
@@ -85,10 +85,10 @@ public class HdwanPc implements IPachong{
 						byte[] torrent = getTorrent(href);
 						vo.setTorrent(torrent);
 					} catch (Exception e) {
-						vo.setDesc(href);
+						vo.setDurl(href);
 					}
 				}else{
-					vo.setDesc(href);
+					vo.setDurl(href);
 				}
 			}
 		}

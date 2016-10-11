@@ -56,6 +56,10 @@ public class PageInfo implements Serializable{
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
+	
+	public int getStart(){
+		return pageSize*(curPageNo-1);
+	}
 
 	public PageInfo next(){
 		this.curPageNo++;

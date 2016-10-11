@@ -10,17 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.rowset.serial.SerialBlob;
-
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.apache.commons.dbutils.handlers.KeyedHandler;
 import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-
-import com.andy.pc.vo.DataVO;
 
 
 public abstract class DBUtil {
@@ -217,25 +212,4 @@ public abstract class DBUtil {
         return result;
     }
 
-	public static void save(List<DataVO> dataVOs) {
-		Connection conn = getConn();
-        try {
-        	conn.setAutoCommit(false);
-        	for(DataVO vo:dataVOs){
-        		QueryRunner runner=new QueryRunner(); 
-        		String sql="insert into hdwan_res (`name`,`torrent`,`desc`,`metadata`) values(?,?,?,?)"; 
-        		SerialBlob blob = null;
-        		if(vo.getTorrent() != null){
-        			blob=new SerialBlob(vo.getTorrent());
-        		}
-        		Long id = runner.insert(conn,sql,new ScalarHandler<Long>(1),vo.getName(),blob,vo.getDesc(),vo.getMetadata());
-        		vo.setId(id.intValue());
-        	}
-        	conn.commit();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		} finally {
-            close(conn);
-		}
-	}
 }
