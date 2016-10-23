@@ -1,6 +1,10 @@
 package com.andy.pc.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
 
 public class DataVO implements Serializable{
 
@@ -23,6 +27,9 @@ public class DataVO implements Serializable{
 	private String url;//明细地址
 	
 	private String durl;//备用下载地址
+	
+	private List<String> durls = new ArrayList<>();
+	private List<Byte[]> torrents = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -96,9 +103,21 @@ public class DataVO implements Serializable{
 		this.durl = durl;
 	}
 
+	public void addDurl(String durl){
+		this.durls.add(durl);
+	}
 
-
+	public void addTorrent(byte[] torrent){
+		this.torrents.add(ArrayUtils.toObject(torrent));
+	}
 	
+	public List<String> getDurls(){
+		return durls;
+	}
+	
+	public List<Byte[]> getTorrents(){
+		return torrents;
+	}
 	
 	
 }
